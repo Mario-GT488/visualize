@@ -34,7 +34,12 @@ function App(){
           onPostCreated={handlePostCreated}
         />
 
-        <PostFeed refreshKey={refreshKey}/>
+        <PostFeed 
+          refreshKey={refreshKey}
+          currentUser={currentUser}
+          onPostChanged={handlePostCreated}
+        />
+
       </main>
     </>
   );
