@@ -2,29 +2,47 @@ import { useEffect, useState } from "react";
 import { getPosts } from "../services/api";
 import PostCard from "./PostCard";
 
+const POSTS_CACHE_KEY = "visualize_posts_cache";
+const POSTS_CACHE_TIMESTAMP_KEY = "visualize_posts_cache_timestamp";
+
 function PostFeed({ refreshKey, currentUser, onPostChanged }) {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
+  const [loadedFromCache, setLoadedFromCache] = useState(false);
 
   useEffect(() => {
     async function loadPosts() {
       try {
         setError("");
+        setLoadedFromCache(false);
+
         const data = await getPosts();
+
         setPosts(data);
+
+        localStorage.setItem(POSTS_CACHE_KEY, JSON.stringify(data));
+        localStorage.setItem(POSTS_CACHE_TIMESTAMP_KEY, new Date().toISOString());
       } catch (err) {
-        setError(err.message);
+        const cachedPosts = localStorage.getItem(POSTS_CACHE_KEY);
+
+        if (cachedPosts) {
+          setPosts(JSON.parse(cachedPosts));
+          setLoadedFromCache(true);
+          setError("No se pudo conectar con la API. Mostrando datos guardados localmente.");
+        } else {
+          setError(err.message);
+        }
       }
     }
 
     loadPosts();
   }, [refreshKey]);
 
-  if (error) {
+  if (error && posts.length === 0) {
     return <p className="text-danger text-center">{error}</p>;
   }
 
-  if(posts.length === 0) {
+  if (posts.length === 0) {
     return (
       <section className="container py-4">
         <div className="text-center bg-white rounded-4 shadow-sm p-5">
@@ -40,6 +58,12 @@ function PostFeed({ refreshKey, currentUser, onPostChanged }) {
   return (
     <section className="container py-4">
       <h2 className="mb-4 text-center">Feed de inspiración</h2>
+
+      {loadedFromCache && (
+        <div className="alert alert-warning text-center" role="alert">
+          {error}
+        </div>
+      )}
 
       <div className="row g-4">
         {posts.map((post) => (
