@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPosts } from "../services/api";
 
-function PostFeed() {
+function PostFeed({ refreshKey }) {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
 
@@ -17,7 +17,7 @@ function PostFeed() {
     }
 
     loadPosts();
-  }, []);
+  }, [refreshKey]);
 
   if (error) {
     return <p className="text-danger">{error}</p>;
