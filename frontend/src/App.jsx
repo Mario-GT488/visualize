@@ -3,6 +3,7 @@ import PostFeed from "./components/PostFeed";
 import PostForm from "./components/PostForm";
 import UserSessionForm from "./components/UserSessionForm";
 import Navbar from "./components/Navbar";
+import Discovery from "./components/Discovery";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App(){
@@ -41,6 +42,11 @@ function App(){
         />
 
         <PostForm
+          currentUser={currentUser}
+          onPostCreated={handlePostChanged}
+        />
+
+        <Discovery 
           currentUser={currentUser}
           onPostCreated={handlePostChanged}
         />
