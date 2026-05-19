@@ -24,6 +24,19 @@ function PostFeed({ refreshKey, currentUser, onPostChanged }) {
     return <p className="text-danger text-center">{error}</p>;
   }
 
+  if(posts.length === 0) {
+    return (
+      <section className="container py-4">
+        <div className="text-center bg-white rounded-4 shadow-sm p-5">
+          <h2 className="h4">Todavía no hay posts</h2>
+          <p className="text-muted mb-0">
+            Crea tu primera publicación visual para empezar tu mosaico.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="container py-4">
       <h2 className="mb-4 text-center">Feed de inspiración</h2>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import PostFeed from "./components/PostFeed";
 import PostForm from "./components/PostForm";
 import UserSessionForm from "./components/UserSessionForm";
+import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App(){
@@ -9,37 +10,46 @@ function App(){
 
   const [refreshKey, setRefreshKey] = useState(0);
 
-  function handlePostCreated(){
+  function handlePostChanged(){
     setRefreshKey(refreshKey + 1);
   }
 
-  return(
+  return (
     <>
-      <header className="bg-dark text-white py-4">
-        <div className="container">
-          <h1 className="mb-0">Visualize</h1>
-          <p className="mb-0">Guarda y descubre inspiración visual</p>
+      <Navbar currentUser={currentUser} />
+
+      <header className="hero-section text-center">
+        <div className="container py-5">
+          <p className="text-uppercase small fw-semibold mb-2">
+            inspiración visual organizada
+          </p>
+
+          <h1 className="display-4 fw-bold mb-3">
+            Visualize
+          </h1>
+
+          <p className="lead mb-0">
+            Guarda imágenes, organízalas con etiquetas y construye tu propio mosaico de ideas.
+          </p>
         </div>
       </header>
 
-      <main>
-
-        <UserSessionForm 
+      <main className="bg-light min-vh-100">
+        <UserSessionForm
           currentUser={currentUser}
           onUserChange={setCurrentUser}
         />
 
-        <PostForm 
+        <PostForm
           currentUser={currentUser}
-          onPostCreated={handlePostCreated}
+          onPostCreated={handlePostChanged}
         />
 
-        <PostFeed 
+        <PostFeed
           refreshKey={refreshKey}
           currentUser={currentUser}
-          onPostChanged={handlePostCreated}
+          onPostChanged={handlePostChanged}
         />
-
       </main>
     </>
   );
