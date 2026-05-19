@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app import models
-from app.routers import posts
+from app.routers import posts, discovery
 
 Base.metadata.create_all(bind=engine)
 
@@ -21,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(posts.router)
+app.include_router(discovery.router)
 
 @app.get("/")
 def root():
