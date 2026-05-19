@@ -58,3 +58,13 @@ export async function deletePost(postId, currentUser){
 
     return response.json();
 }
+
+export async function getDiscoveryImages(query = "inspiration", perPage = 6){
+    const response = await fetch(`${API_BASE_URL}/v1/discovery/?query=${query}&per_page=${perPage}`);
+
+    if(!response.ok){
+        throw new Error("Error al buscar las imágenes");
+    }
+
+    return response.json();
+}
