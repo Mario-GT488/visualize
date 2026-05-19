@@ -1,7 +1,18 @@
+import { useState } from "react";
 import PostFeed from "./components/PostFeed";
+import PostForm from "./components/PostForm";
+import UserSessionForm from "./components/UserSessionForm";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App(){
+  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("currentUser") || "");
+
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  function handlePostCreated(){
+    setRefreshKey(refreshKey + 1);
+  }
+
   return(
     <>
       <header className="bg-dark text-white py-4">
@@ -12,7 +23,18 @@ function App(){
       </header>
 
       <main>
-        <PostFeed />
+
+        <UserSessionForm 
+          currentUser={currentUser}
+          onUserChange={setCurrentUser}
+        />
+
+        <PostForm 
+          currentUser={currentUser}
+          onPostCreated={handlePostCreated}
+        />
+
+        <PostFeed refreshKey={refreshKey}/>
       </main>
     </>
   );
