@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { getPosts } from "../services/api";
+import PostCard from "./PostCard";
 
-function PostFeed({ refreshKey }) {
+function PostFeed({ refreshKey, currentUser, onPostChanged }) {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
     async function loadPosts() {
       try {
+        setError("");
         const data = await getPosts();
         setPosts(data);
-        setError("");
       } catch (err) {
         setError(err.message);
       }
@@ -20,29 +21,21 @@ function PostFeed({ refreshKey }) {
   }, [refreshKey]);
 
   if (error) {
-    return <p className="text-danger">{error}</p>;
+    return <p className="text-danger text-center">{error}</p>;
   }
 
   return (
     <section className="container py-4">
-      <h2 className="mb-4">Feed de inspiración</h2>
+      <h2 className="mb-4 text-center">Feed de inspiración</h2>
 
       <div className="row g-4">
         {posts.map((post) => (
           <div className="col-12 col-md-6 col-lg-4" key={post.id}>
-            <div className="card h-100 shadow-sm">
-              <img
-                src={post.image_url}
-                className="card-img-top"
-                alt={post.description}
-              />
-
-              <div className="card-body">
-                <h5 className="card-title">{post.username}</h5>
-                <p className="card-text">{post.description}</p>
-                <p className="text-muted">{post.tags}</p>
-              </div>
-            </div>
+            <PostCard
+              post={post}
+              currentUser={currentUser}
+              onPostChanged={onPostChanged}
+            />
           </div>
         ))}
       </div>
