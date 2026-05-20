@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app import models
 from app.routers import posts, discovery
+import os
 
 Base.metadata.create_all(bind=engine)
 
@@ -29,11 +30,13 @@ def root():
         "message": "Welcome to Visualize API"
     }
 
-@app.get("/")
+@app.get("/health")
 def health():
+    external_api_status = "configured" if os.getenv("UNSPLASH_ACCESS_KEY") else "missing"
+
     return{
         "status": "ok",
         "app": "Visualize API",
-        "databse": "pending",
-        "external_api": "pending"
+        "databse": "connected",
+        "external_api": external_api_status
     }
