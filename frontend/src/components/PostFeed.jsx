@@ -8,7 +8,13 @@ const POSTS_CACHE_TIMESTAMP_KEY = "visualize_posts_cache_timestamp";
 function PostFeed({ refreshKey, currentUser, onPostChanged }) {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const limit = 6; 
   const [loadedFromCache, setLoadedFromCache] = useState(false);
+
+  useEffect(() => {
+    setPage(1);
+  }, [refreshKey])
 
   useEffect(() => {
     async function loadPosts() {
@@ -16,7 +22,7 @@ function PostFeed({ refreshKey, currentUser, onPostChanged }) {
         setError("");
         setLoadedFromCache(false);
 
-        const data = await getPosts();
+        const data = await getPosts(page, limit);
 
         setPosts(data);
 
@@ -36,7 +42,7 @@ function PostFeed({ refreshKey, currentUser, onPostChanged }) {
     }
 
     loadPosts();
-  }, [refreshKey]);
+  }, [refreshKey, page]);
 
   if (error && posts.length === 0) {
     return <p className="text-danger text-center">{error}</p>;
@@ -75,6 +81,30 @@ function PostFeed({ refreshKey, currentUser, onPostChanged }) {
             />
           </div>
         ))}
+      </div>
+
+      <div className="d-flex justify-content-center gap-2 mt-4">
+        <button
+          type="button"
+          className="btn btn-outline-dark"
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+        >
+          Anterior
+        </button>
+
+        <span className="d-flex align-items-center px-3">
+          Página {page}
+        </span>
+
+        <button
+          type="button"
+          className="btn btn-dark"
+          onClick={() => setPage(page + 1)}
+          disabled={posts.length < limit}
+        >
+          Siguiente
+        </button>
       </div>
     </section>
   );
