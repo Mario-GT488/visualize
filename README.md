@@ -157,27 +157,6 @@ Actualmente Visualize permite crear, consultar, editar y eliminar posts visuales
 
 - Mario García
 
-Después de pegarlo, haces:
-
-git status
-git add README.md
-git commit -m "Add final project documentation"
-git push -u origin feature/final-readme
-
-Luego PR:
-
-feature/final-readme → main
-
-Título:
-
-Add final project documentation
-
-Y descripción:
-
-Adds final README documentation with setup instructions, implemented features, architecture, technical decisions, Git workflow, and demo guide.
-
-Con eso el README ya queda bastante presentable. Después de este PR, nos vamos a OpenGraph + health endpoint final, que es rapidísimo pero importante para que no nos agarren en curva.
-
 ## Despliegue
 
 Frontend desplegado en Vercel:
