@@ -177,3 +177,21 @@ Y descripción:
 Adds final README documentation with setup instructions, implemented features, architecture, technical decisions, Git workflow, and demo guide.
 
 Con eso el README ya queda bastante presentable. Después de este PR, nos vamos a OpenGraph + health endpoint final, que es rapidísimo pero importante para que no nos agarren en curva.
+
+## Despliegue
+
+Frontend desplegado en Vercel:
+
+https://visualize-git-nine.vercel.app
+
+Backend desplegado en Render:
+
+https://visualize-api-5vqf.onrender.com
+
+Documentación Swagger del backend:
+
+https://visualize-api-5vqf.onrender.com/docs
+
+Health endpoint:
+
+https://visualize-api-5vqf.onrender.com/health
